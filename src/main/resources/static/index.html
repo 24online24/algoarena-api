@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Your first Spring application</title>
+    </head>
+    <body>
+       <form action="/add" method="post">
+           <p>Let's add a user.</p>
+
+           <div>
+               <label for="username">First name:</label>
+               <input name="username" id="username" value="ShortLinus">
+           </div>
+           <div>
+               <button>Add user</button>
+           </div>
+       </form>
+
+        <form action="/list" method="get">
+            <button>List users</button>
+        </form>
+    </body>
+</html>
