@@ -39,4 +39,78 @@ public class Problem {
             inverseJoinColumns = @JoinColumn(name = "problemset_id")
     )
     private List<ProblemSet> problemSets;
+
+    public Problem() {
+    }
+
+    public Problem(Long id, User author, String nameName, String description, Difficulty difficulty, List<Category> categories, List<ProblemSet> problemSets) {
+        this.id = id;
+        this.author = author;
+        this.nameName = nameName;
+        this.description = description;
+        this.difficulty = difficulty;
+        this.categories = categories;
+        this.problemSets = problemSets;
+    }
+
+    public Problem(User author, String nameName, String description, Difficulty difficulty, List<Category> categories, List<ProblemSet> problemSets) {
+        this.author = author;
+        this.nameName = nameName;
+        this.description = description;
+        this.difficulty = difficulty;
+        this.categories = categories;
+        this.problemSets = problemSets;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public String getNameName() {
+        return nameName;
+    }
+
+    public void setNameName(String nameName) {
+        this.nameName = nameName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<ProblemSet> getProblemSets() {
+        return problemSets;
+    }
+
+    public void setProblemSets(List<ProblemSet> problemSets) {
+        this.problemSets = problemSets;
+    }
 }

@@ -20,4 +20,58 @@ public class TestCase {
 
     @Column(name = "is_example", nullable = false)
     private Boolean isExample;
+
+    public TestCase() {
+    }
+
+    public TestCase(Long id, Problem problem, String input, String output, Boolean isExample) {
+        this.id = id;
+        this.problem = problem;
+        this.input = input;
+        this.output = output;
+        this.isExample = isExample;
+    }
+
+    public TestCase(Problem problem, String input, String output, Boolean isExample) {
+        this.problem = problem;
+        this.input = input;
+        this.output = output;
+        this.isExample = isExample;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public void setProblem(Problem problem) {
+        this.problem = problem;
+    }
+
+    public String getInput() {
+        return input;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
+
+    public Boolean getExample() {
+        return isExample;
+    }
+
+    public void setExample(Boolean example) {
+        isExample = example;
+    }
 }

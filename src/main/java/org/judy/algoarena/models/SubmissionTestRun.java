@@ -18,4 +18,48 @@ public class SubmissionTestRun {
 
     @Column(name = "status", nullable = false)
     private SubmissionStatus status;
+
+    public SubmissionTestRun() {
+    }
+
+    public SubmissionTestRun(Long id, Submission submission, TestCase testCase, SubmissionStatus status) {
+        this.id = id;
+        this.submission = submission;
+        this.testCase = testCase;
+        this.status = status;
+    }
+
+    public SubmissionTestRun(Submission submission, TestCase testCase, SubmissionStatus status) {
+        this.submission = submission;
+        this.testCase = testCase;
+        this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Submission getSubmission() {
+        return submission;
+    }
+
+    public void setSubmission(Submission submission) {
+        this.submission = submission;
+    }
+
+    public TestCase getTestCase() {
+        return testCase;
+    }
+
+    public void setTestCase(TestCase testCase) {
+        this.testCase = testCase;
+    }
+
+    public SubmissionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SubmissionStatus status) {
+        this.status = status;
+    }
 }
