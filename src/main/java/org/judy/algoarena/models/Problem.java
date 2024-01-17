@@ -14,8 +14,8 @@ public class Problem {
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "name_name", nullable = false)
+    private String nameName;
 
     @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
