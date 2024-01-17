@@ -4,7 +4,6 @@ import org.judy.algoarena.models.Role;
 import org.judy.algoarena.models.User;
 import org.judy.algoarena.repositories.RoleRepository;
 import org.judy.algoarena.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -13,11 +12,14 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    public UserController(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @PostMapping("/add")
     public String addUser(@RequestParam String username, @RequestParam String avatar, @RequestParam String email, @RequestParam String password, @RequestParam Long role_id) {

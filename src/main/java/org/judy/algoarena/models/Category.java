@@ -10,7 +10,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "categoryName", nullable = false, unique = true)
+    @Column(name = "category_name", nullable = false, unique = true)
     private String categoryName;
 
     @ManyToMany(mappedBy = "categories")
