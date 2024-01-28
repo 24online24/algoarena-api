@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -21,7 +21,7 @@ public class UserController {
         this.roleRepository = roleRepository;
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/")
     public String addUser(@RequestParam String username, @RequestParam String avatar, @RequestParam String email, @RequestParam String password, @RequestParam Long role_id) {
         Optional<Role> role = roleRepository.findById(role_id);
         if (role.isEmpty()) {
@@ -33,22 +33,17 @@ public class UserController {
         return "Added new user to repo!";
     }
 
-    @GetMapping("/list")
+    @GetMapping("/")
     public Iterable<User> getUsers() {
         return userRepository.findAll();
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public User findUserById(@PathVariable Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    @GetMapping("/find/{username}")
-    public User findUserByUsername(@PathVariable String username) {
-        return userRepository.findByUsername(username).orElse(null);
-    }
-
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/id}")
     public User updateUser(@PathVariable Long id, @RequestParam String username, @RequestParam String avatar, @RequestParam String email, @RequestParam String password, @RequestParam Long role_id) {
         Optional<Role> roleOptional = roleRepository.findById(role_id);
         if (roleOptional.isEmpty()) {
@@ -69,7 +64,7 @@ public class UserController {
         return user;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
