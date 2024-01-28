@@ -1,5 +1,9 @@
 package org.judy.algoarena.controllers;
 
+import org.judy.algoarena.dto.UserCreateDTO;
+import org.judy.algoarena.dto.UserResponseDTO;
+import org.judy.algoarena.dto.UserUpdateDTO;
+import org.judy.algoarena.mappers.UserMapper;
 import org.judy.algoarena.models.Role;
 import org.judy.algoarena.models.User;
 import org.judy.algoarena.repositories.RoleRepository;
@@ -7,6 +11,8 @@ import org.judy.algoarena.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/users")
@@ -21,47 +27,50 @@ public class UserController {
         this.roleRepository = roleRepository;
     }
 
-    @PostMapping(value = "/")
-    public String addUser(@RequestParam String username, @RequestParam String avatar, @RequestParam String email, @RequestParam String password, @RequestParam Long role_id) {
-        Optional<Role> role = roleRepository.findById(role_id);
+    @PostMapping()
+    public String addUser(@RequestBody UserCreateDTO userCreateDTO) {
+        Optional<Role> role = roleRepository.findById(userCreateDTO.getRoleId());
         if (role.isEmpty()) {
             return "Role not found!";
         }
-        User user = new User(username, avatar, email, password, role.get());
-        user.setUsername(username);
-        userRepository.save(user);
+        userRepository.save(UserMapper.convertToEntity(userCreateDTO, role.get()));
         return "Added new user to repo!";
     }
 
-    @GetMapping("/")
-    public Iterable<User> getUsers() {
-        return userRepository.findAll();
+    @GetMapping()
+    public Iterable<UserResponseDTO> getUsers()
+    {
+        return StreamSupport.stream(userRepository.findAll().spliterator(), true)
+                .map(UserMapper::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public User findUserById(@PathVariable Long id) {
-        return userRepository.findById(id).orElse(null);
+    public UserResponseDTO findUserById(@PathVariable Long id)
+    {
+        Optional<User> user = userRepository.findById(id);
+        return user.map(UserMapper::convertToDTO).orElse(null);
     }
 
-    @PatchMapping("/id}")
-    public User updateUser(@PathVariable Long id, @RequestParam String username, @RequestParam String avatar, @RequestParam String email, @RequestParam String password, @RequestParam Long role_id) {
+    @PutMapping("/{id}")
+    public UserResponseDTO updateUser(@RequestBody UserUpdateDTO userUpdateDTO, @RequestParam Long role_id) {
         Optional<Role> roleOptional = roleRepository.findById(role_id);
         if (roleOptional.isEmpty()) {
             return null;
         }
         Role role = roleOptional.get();
-        Optional<User> userOptional = userRepository.findById(id);
+        Optional<User> userOptional = userRepository.findById(userUpdateDTO.getId());
         if (userOptional.isEmpty()) {
             return null;
         }
         User user = userOptional.get();
-        user.setUsername(username);
-        user.setAvatar(avatar);
-        user.setEmail(email);
-        user.setPassword(password);
+        user.setUsername(userUpdateDTO.getUsername());
+        user.setAvatar(userUpdateDTO.getAvatar());
+        user.setEmail(userUpdateDTO.getEmail());
+        user.setPassword(userUpdateDTO.getPassword());
         user.setRole(role);
         userRepository.save(user);
-        return user;
+        return UserMapper.convertToDTO(user);
     }
 
     @DeleteMapping("/{id}")
