@@ -1,4 +1,4 @@
-package org.judy.algoarena.dto;
+package org.judy.algoarena.dto.user;
 
 import org.judy.algoarena.models.Role;
 

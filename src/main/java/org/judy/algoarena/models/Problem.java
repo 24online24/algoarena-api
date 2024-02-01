@@ -1,8 +1,18 @@
 package org.judy.algoarena.models;
 
-import jakarta.persistence.*;
-
 import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Problem {
@@ -14,8 +24,8 @@ public class Problem {
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @Column(name = "name_name", nullable = false)
-    private String nameName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
@@ -25,37 +35,31 @@ public class Problem {
     private Difficulty difficulty;
 
     @ManyToMany
-    @JoinTable(
-            name = "problem_category",
-            joinColumns = @JoinColumn(name = "problem_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+    @JoinTable(name = "problem_category", joinColumns = @JoinColumn(name = "problem_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
     @ManyToMany
-    @JoinTable(
-            name = "problem_problemset",
-            joinColumns = @JoinColumn(name = "problem_id"),
-            inverseJoinColumns = @JoinColumn(name = "problemset_id")
-    )
+    @JoinTable(name = "problem_problemset", joinColumns = @JoinColumn(name = "problem_id"), inverseJoinColumns = @JoinColumn(name = "problemset_id"))
     private List<ProblemSet> problemSets;
 
     public Problem() {
     }
 
-    public Problem(Long id, User author, String nameName, String description, Difficulty difficulty, List<Category> categories, List<ProblemSet> problemSets) {
+    public Problem(Long id, User author, String name, String description, Difficulty difficulty,
+            List<Category> categories, List<ProblemSet> problemSets) {
         this.id = id;
         this.author = author;
-        this.nameName = nameName;
+        this.name = name;
         this.description = description;
         this.difficulty = difficulty;
         this.categories = categories;
         this.problemSets = problemSets;
     }
 
-    public Problem(User author, String nameName, String description, Difficulty difficulty, List<Category> categories, List<ProblemSet> problemSets) {
+    public Problem(User author, String name, String description, Difficulty difficulty, List<Category> categories,
+            List<ProblemSet> problemSets) {
         this.author = author;
-        this.nameName = nameName;
+        this.name = name;
         this.description = description;
         this.difficulty = difficulty;
         this.categories = categories;
@@ -74,12 +78,12 @@ public class Problem {
         this.author = author;
     }
 
-    public String getNameName() {
-        return nameName;
+    public String getName() {
+        return name;
     }
 
-    public void setNameName(String nameName) {
-        this.nameName = nameName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

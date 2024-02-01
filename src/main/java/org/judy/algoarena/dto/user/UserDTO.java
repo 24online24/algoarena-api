@@ -1,4 +1,4 @@
-package org.judy.algoarena.dto;
+package org.judy.algoarena.dto.user;
 
 public abstract class UserDTO {
     private String username;

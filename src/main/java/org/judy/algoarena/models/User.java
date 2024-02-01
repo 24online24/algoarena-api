@@ -1,12 +1,33 @@
 package org.judy.algoarena.models;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "`user`")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,8 +35,9 @@ public class User {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "avatar", nullable = false, unique = true)
-    private String avatar;
+    @Column(name = "avatar", nullable = false)
+    @Builder.Default
+    private String avatar = "https://i.imgur.com/6VBx3io.png";
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -23,15 +45,12 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(name = "createdAt", nullable = false)
-    private LocalDateTime createdAt;
-
-    public User() {
-    }
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public User(String username, String avatar, String email, String password, Role role) {
         this.username = username;
@@ -55,11 +74,12 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
+    @JsonProperty("username")
+    public String getName() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setName(String username) {
         this.username = username;
     }
 
@@ -71,16 +91,8 @@ public class User {
         this.avatar = avatar;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
@@ -102,4 +114,42 @@ public class User {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    // Authentication
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    @JsonProperty("email")
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
 }

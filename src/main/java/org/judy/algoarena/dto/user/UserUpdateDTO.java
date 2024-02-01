@@ -1,15 +1,17 @@
-package org.judy.algoarena.dto;
+package org.judy.algoarena.dto.user;
+
+import org.judy.algoarena.models.Role;
 
 public class UserUpdateDTO extends UserDTO {
     private Long id;
     private String password;
-    private Long roleId;
+    private Role role;
 
-    public UserUpdateDTO(Long id, String username, String avatar, String email, String password, Long roleId) {
+    public UserUpdateDTO(Long id, String username, String avatar, String email, String password, Role role) {
         super(username, avatar, email);
         this.id = id;
         this.password = password;
-        this.roleId = roleId;
+        this.role = role;
     }
 
     public Long getId() {
@@ -20,7 +22,7 @@ public class UserUpdateDTO extends UserDTO {
         return password;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
     }
 }
