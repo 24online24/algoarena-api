@@ -36,8 +36,7 @@ public class User implements UserDetails {
     private String username;
 
     @Column(name = "avatar", nullable = false)
-    @Builder.Default
-    private String avatar = "https://i.imgur.com/6VBx3io.png";
+    private String avatar;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
