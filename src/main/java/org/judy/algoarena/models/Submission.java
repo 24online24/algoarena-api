@@ -1,11 +1,21 @@
 package org.judy.algoarena.models;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Submission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @ManyToOne
@@ -26,67 +36,11 @@ public class Submission {
     @Column(name = "status", nullable = false)
     private SubmissionStatus status;
 
-    public Submission() {
-    }
-
-    public Submission(Long id, User author, Problem problem, String code, int language_id, SubmissionStatus status) {
-        this.id = id;
-        this.author = author;
-        this.problem = problem;
-        this.code = code;
-        this.language_id = language_id;
-        this.status = status;
-    }
-
     public Submission(User author, Problem problem, String code, int language_id, SubmissionStatus status) {
         this.author = author;
         this.problem = problem;
         this.code = code;
         this.language_id = language_id;
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public Problem getProblem() {
-        return problem;
-    }
-
-    public void setProblem(Problem problem) {
-        this.problem = problem;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public int getLanguage_id() {
-        return language_id;
-    }
-
-    public void setLanguage_id(int language_id) {
-        this.language_id = language_id;
-    }
-
-    public SubmissionStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(SubmissionStatus status) {
         this.status = status;
     }
 }

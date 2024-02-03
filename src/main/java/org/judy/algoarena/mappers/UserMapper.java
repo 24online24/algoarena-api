@@ -2,11 +2,9 @@ package org.judy.algoarena.mappers;
 
 import org.judy.algoarena.dto.user.UserCreateDTO;
 import org.judy.algoarena.dto.user.UserResponseDTO;
-import org.judy.algoarena.models.Role;
 import org.judy.algoarena.models.User;
 
 public class UserMapper {
-
     public static UserResponseDTO convertToDTO(User user) {
         return new UserResponseDTO(
                 user.getId(),
@@ -23,6 +21,6 @@ public class UserMapper {
                 userCreateDTO.getAvatar(),
                 userCreateDTO.getEmail(),
                 userCreateDTO.getPassword(),
-                userCreateDTO.getRole().orElse(Role.USER));
+                userCreateDTO.getRole());
     }
 }

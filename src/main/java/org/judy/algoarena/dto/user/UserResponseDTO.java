@@ -2,8 +2,11 @@ package org.judy.algoarena.dto.user;
 
 import org.judy.algoarena.models.Role;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class UserResponseDTO extends UserDTO {
     private Long id;
     private Role role;
@@ -15,10 +18,4 @@ public class UserResponseDTO extends UserDTO {
         this.role = role;
         this.createdAt = createdAt;
     }
-
-    public Long getId() { return id; }
-
-    public Role getRole() { return role; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
 }

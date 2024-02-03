@@ -13,11 +13,21 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Problem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @ManyToOne
@@ -42,20 +52,6 @@ public class Problem {
     @JoinTable(name = "problem_problemset", joinColumns = @JoinColumn(name = "problem_id"), inverseJoinColumns = @JoinColumn(name = "problemset_id"))
     private List<ProblemSet> problemSets;
 
-    public Problem() {
-    }
-
-    public Problem(Long id, User author, String name, String description, Difficulty difficulty,
-            List<Category> categories, List<ProblemSet> problemSets) {
-        this.id = id;
-        this.author = author;
-        this.name = name;
-        this.description = description;
-        this.difficulty = difficulty;
-        this.categories = categories;
-        this.problemSets = problemSets;
-    }
-
     public Problem(User author, String name, String description, Difficulty difficulty, List<Category> categories,
             List<ProblemSet> problemSets) {
         this.author = author;
@@ -63,58 +59,6 @@ public class Problem {
         this.description = description;
         this.difficulty = difficulty;
         this.categories = categories;
-        this.problemSets = problemSets;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public List<ProblemSet> getProblemSets() {
-        return problemSets;
-    }
-
-    public void setProblemSets(List<ProblemSet> problemSets) {
         this.problemSets = problemSets;
     }
 }

@@ -1,13 +1,23 @@
 package org.judy.algoarena.models;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProblemSet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "problemSetName", nullable = false, unique = true)
@@ -23,57 +33,10 @@ public class ProblemSet {
     @ManyToMany(mappedBy = "problemSets")
     private List<Problem> problems;
 
-    public ProblemSet() {
-    }
-
-    public ProblemSet(Long id, String problemSetName, User creator, String description, List<Problem> problems) {
-        this.id = id;
-        this.problemSetName = problemSetName;
-        this.creator = creator;
-        this.description = description;
-        this.problems = problems;
-    }
-
     public ProblemSet(String problemSetName, User creator, String description, List<Problem> problems) {
         this.problemSetName = problemSetName;
         this.creator = creator;
         this.description = description;
-        this.problems = problems;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getProblemSetName() {
-        return problemSetName;
-    }
-
-    public void setProblemSetName(String problemSetName) {
-        this.problemSetName = problemSetName;
-    }
-
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<Problem> getProblems() {
-        return problems;
-    }
-
-    public void setProblems(List<Problem> problems) {
         this.problems = problems;
     }
 }
