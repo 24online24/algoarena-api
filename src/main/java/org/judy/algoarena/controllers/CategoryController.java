@@ -9,6 +9,7 @@ import org.judy.algoarena.dto.category.CategoryUpdateDTO;
 import org.judy.algoarena.mappers.CategoryMapper;
 import org.judy.algoarena.models.Category;
 import org.judy.algoarena.repositories.CategoryRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,17 +48,17 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public CategoryResponseDTO updateCategory(@RequestBody CategoryUpdateDTO categoryUpdateDTO) {
+    public CategoryResponseDTO updateCategory(@RequestBody @NonNull CategoryUpdateDTO categoryUpdateDTO) {
         Category category = categoryRepository.findById(categoryUpdateDTO.getId()).orElseThrow(
                 () -> new IllegalArgumentException("Category not found with ID: " + categoryUpdateDTO.getId()));
-        
+
         category.setCategoryName(categoryUpdateDTO.getCategoryName());
         categoryRepository.save(category);
         return CategoryMapper.convertToDTO(category);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCategoryById(@PathVariable Long id) {
+    public void deleteCategoryById(@PathVariable @NonNull Long id) {
         categoryRepository.deleteById(id);
     }
 }

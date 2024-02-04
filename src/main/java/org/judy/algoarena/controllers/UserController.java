@@ -9,6 +9,7 @@ import org.judy.algoarena.dto.user.UserUpdateDTO;
 import org.judy.algoarena.mappers.UserMapper;
 import org.judy.algoarena.models.User;
 import org.judy.algoarena.repositories.UserRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserResponseDTO findUserById(@PathVariable Long id) {
+    public UserResponseDTO findUserById(@PathVariable @NonNull Long id) {
         return UserMapper.convertToDTO(userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id)));
     }
@@ -51,6 +52,7 @@ public class UserController {
     public UserResponseDTO updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
         User user = userRepository.findById(userUpdateDTO.getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userUpdateDTO.getId()));
+
         user.setName(userUpdateDTO.getUsername());
         user.setAvatar(userUpdateDTO.getAvatar());
         user.setEmail(userUpdateDTO.getEmail());
@@ -61,7 +63,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteUser(@PathVariable @NonNull Long id) {
         userRepository.deleteById(id);
     }
 }

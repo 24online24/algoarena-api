@@ -16,6 +16,7 @@ import org.judy.algoarena.repositories.CategoryRepository;
 import org.judy.algoarena.repositories.ProblemRepository;
 import org.judy.algoarena.repositories.ProblemSetRepository;
 import org.judy.algoarena.repositories.UserRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,7 +60,7 @@ public class ProblemController {
     }
 
     @GetMapping("/{id}")
-    public ProblemResponseDTO findProblemById(@PathVariable Long id) {
+    public ProblemResponseDTO findProblemById(@PathVariable @NonNull Long id) {
         return ProblemMapper.convertToDTO(problemRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Problem not found with ID: " + id)));
     }
@@ -90,7 +91,7 @@ public class ProblemController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProblem(@PathVariable Long id) {
+    public void deleteProblem(@PathVariable @NonNull Long id) {
         problemRepository.deleteById(id);
     }
 }

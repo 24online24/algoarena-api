@@ -7,6 +7,7 @@ import org.judy.algoarena.models.User;
 import org.judy.algoarena.repositories.CategoryRepository;
 import org.judy.algoarena.repositories.ProblemSetRepository;
 import org.judy.algoarena.repositories.UserRepository;
+import org.springframework.lang.NonNull;
 
 public class ProblemMapper {
     private static UserRepository userRepository;
@@ -33,6 +34,7 @@ public class ProblemMapper {
                         .toList());
     }
 
+    @NonNull
     public static Problem convertToEntity(ProblemCreateDTO problemCreateDTO) {
         Long authorId = problemCreateDTO.getAuthorId();
         if (authorId == null) {
