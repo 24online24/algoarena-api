@@ -1,6 +1,5 @@
 package org.judy.algoarena.controllers;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -44,17 +43,15 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserResponseDTO findUserById(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.map(UserMapper::convertToDTO).orElse(null);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+        return UserMapper.convertToDTO(user);
     }
 
     @PutMapping("/{id}")
     public UserResponseDTO updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
-        Optional<User> userOptional = userRepository.findById(userUpdateDTO.getId());
-        if (userOptional.isEmpty()) {
-            return null;
-        }
-        User user = userOptional.get();
+        User user = userRepository.findById(userUpdateDTO.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userUpdateDTO.getId()));
         user.setName(userUpdateDTO.getUsername());
         user.setAvatar(userUpdateDTO.getAvatar());
         user.setEmail(userUpdateDTO.getEmail());
