@@ -46,8 +46,8 @@ public class ProblemController {
     }
 
     @PostMapping()
-    public String addProblem(@RequestBody ProblemCreateDTO problemDTO) {
-        problemRepository.save(ProblemMapper.convertToEntity(problemDTO));
+    public String addProblem(@RequestBody ProblemCreateDTO problemCreateDTO) {
+        problemRepository.save(ProblemMapper.convertToEntity(problemCreateDTO));
         return "Added new problem to repo!";
     }
 
@@ -60,9 +60,8 @@ public class ProblemController {
 
     @GetMapping("/{id}")
     public ProblemResponseDTO findProblemById(@PathVariable Long id) {
-        Problem problem = problemRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Problem not found with ID: " + id));
-        return ProblemMapper.convertToDTO(problem);
+        return ProblemMapper.convertToDTO(problemRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Problem not found with ID: " + id)));
     }
 
     @PutMapping("/{id}")

@@ -43,9 +43,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserResponseDTO findUserById(@PathVariable Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
-        return UserMapper.convertToDTO(user);
+        return UserMapper.convertToDTO(userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id)));
     }
 
     @PutMapping("/{id}")
