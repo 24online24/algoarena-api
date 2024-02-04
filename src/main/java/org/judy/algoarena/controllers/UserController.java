@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -50,7 +49,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserResponseDTO updateUser(@RequestBody UserUpdateDTO userUpdateDTO, @RequestParam Long role_id) {
+    public UserResponseDTO updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
         Optional<User> userOptional = userRepository.findById(userUpdateDTO.getId());
         if (userOptional.isEmpty()) {
             return null;
