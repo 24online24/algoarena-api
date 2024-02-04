@@ -26,8 +26,7 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private List<Problem> problems;
 
-    public Category(String categoryName, List<Problem> problems) {
+    public Category(String categoryName) {
         this.categoryName = categoryName;
-        this.problems = problems;
     }
 }
