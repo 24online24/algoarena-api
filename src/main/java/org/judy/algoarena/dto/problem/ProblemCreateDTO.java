@@ -9,14 +9,13 @@ import lombok.Getter;
 @Getter
 public class ProblemCreateDTO extends ProblemDTO {
   private Long authorId;
-  private List<Long> categoryIds;
-  private List<Long> problemSetIds;
+  private List<Long> categoriesIds;
 
-  public ProblemCreateDTO(Long authorId, String name, String description, Difficulty difficulty, List<Long> categories,
-      List<Long> problemSets) {
+  public ProblemCreateDTO(Long authorId, String name, String description, Difficulty difficulty,
+      List<Long> categories) {
     super(name, description, difficulty);
     this.authorId = authorId;
-    this.categoryIds = categories;
-    this.problemSetIds = problemSets;
+    this.categoriesIds = categories;
+    ;
   }
 }

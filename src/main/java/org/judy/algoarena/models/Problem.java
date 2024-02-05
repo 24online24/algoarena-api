@@ -2,6 +2,7 @@ package org.judy.algoarena.models;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,7 +45,7 @@ public class Problem {
     @Column(name = "difficulty", nullable = false)
     private Difficulty difficulty;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "problem_category", joinColumns = @JoinColumn(name = "problem_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
@@ -52,13 +53,11 @@ public class Problem {
     @JoinTable(name = "problem_problemset", joinColumns = @JoinColumn(name = "problem_id"), inverseJoinColumns = @JoinColumn(name = "problemset_id"))
     private List<ProblemSet> problemSets;
 
-    public Problem(User author, String name, String description, Difficulty difficulty, List<Category> categories,
-            List<ProblemSet> problemSets) {
+    public Problem(User author, String name, String description, Difficulty difficulty, List<Category> categories) {
         this.author = author;
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
         this.categories = categories;
-        this.problemSets = problemSets;
     }
 }
