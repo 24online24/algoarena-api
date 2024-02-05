@@ -8,11 +8,20 @@ import lombok.Getter;
 
 @Getter
 public class ProblemUpdateDTO extends ProblemCreateDTO {
-  private Long id;
+    private Long id;
 
-  public ProblemUpdateDTO(Long id, Long authorId, String name, String description, Difficulty difficulty,
-      List<Long> categories) {
-    super(authorId, name, description, difficulty, categories);
-    this.id = id;
-  }
+    public ProblemUpdateDTO(
+            Long id,
+            Long authorId,
+            String name,
+            String description,
+            Difficulty difficulty,
+            List<Long> categories,
+            String exampleInput,
+            String exampleOutput,
+            String input,
+            String output) {
+        super(authorId, name, description, difficulty, categories, exampleInput, exampleOutput, input, output);
+        this.id = id;
+    }
 }
