@@ -5,7 +5,6 @@ import org.judy.algoarena.dto.problem.ProblemResponseDTO;
 import org.judy.algoarena.models.Problem;
 import org.judy.algoarena.models.User;
 import org.judy.algoarena.repositories.CategoryRepository;
-import org.judy.algoarena.repositories.ProblemSetRepository;
 import org.judy.algoarena.repositories.UserRepository;
 import org.springframework.lang.NonNull;
 
@@ -15,8 +14,7 @@ public class ProblemMapper {
 
     public ProblemMapper(
             UserRepository userRepository,
-            CategoryRepository categoryRepository,
-            ProblemSetRepository problemSetRepository) {
+            CategoryRepository categoryRepository) {
         ProblemMapper.userRepository = userRepository;
         ProblemMapper.categoryRepository = categoryRepository;
     }
@@ -30,7 +28,11 @@ public class ProblemMapper {
                 problem.getDifficulty(),
                 problem.getCategories().stream()
                         .map(CategoryMapper::convertToDTO)
-                        .toList());
+                        .toList(),
+                problem.getExampleInput(),
+                problem.getExampleOutput(),
+                problem.getInput(),
+                problem.getOutput());
     }
 
     @NonNull
@@ -54,6 +56,10 @@ public class ProblemMapper {
                                 .orElseThrow(() -> new IllegalArgumentException(
                                         "Category not found with ID: "
                                                 + category.get().getId())))
-                        .toList());
+                        .toList(),
+                problemCreateDTO.getExampleInput(),
+                problemCreateDTO.getExampleOutput(),
+                problemCreateDTO.getInput(),
+                problemCreateDTO.getOutput());
     }
 }

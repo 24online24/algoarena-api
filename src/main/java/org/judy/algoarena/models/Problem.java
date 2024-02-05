@@ -49,10 +49,6 @@ public class Problem {
     @JoinTable(name = "problem_category", joinColumns = @JoinColumn(name = "problem_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
-    @ManyToMany
-    @JoinTable(name = "problem_problemset", joinColumns = @JoinColumn(name = "problem_id"), inverseJoinColumns = @JoinColumn(name = "problemset_id"))
-    private List<ProblemSet> problemSets;
-
     @Column(name = "example_input", columnDefinition = "TEXT", nullable = false)
     private String exampleInput;
 

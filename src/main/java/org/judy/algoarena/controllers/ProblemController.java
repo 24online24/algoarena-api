@@ -14,7 +14,6 @@ import org.judy.algoarena.models.Problem;
 import org.judy.algoarena.models.User;
 import org.judy.algoarena.repositories.CategoryRepository;
 import org.judy.algoarena.repositories.ProblemRepository;
-import org.judy.algoarena.repositories.ProblemSetRepository;
 import org.judy.algoarena.repositories.UserRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,8 +36,7 @@ public class ProblemController {
     public ProblemController(
             ProblemRepository problemRepository,
             UserRepository userRepository,
-            CategoryRepository categoryRepository,
-            ProblemSetRepository problemSetRepository) {
+            CategoryRepository categoryRepository) {
         this.problemRepository = problemRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
@@ -62,7 +60,6 @@ public class ProblemController {
         problem.setDescription(problemCreateDTO.getDescription());
         problem.setDifficulty(problemCreateDTO.getDifficulty());
         problem.setCategories(categories);
-        problem.setProblemSets(new ArrayList<>());
         problemRepository.save(problem);
         return "Added new problem to repo!";
     }
