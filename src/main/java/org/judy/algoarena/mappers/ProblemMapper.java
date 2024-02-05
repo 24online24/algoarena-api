@@ -12,7 +12,6 @@ import org.springframework.lang.NonNull;
 public class ProblemMapper {
         private static UserRepository userRepository;
         private static CategoryRepository categoryRepository;
-        private static ProblemSetRepository problemSetRepository;
 
         public ProblemMapper(
                         UserRepository userRepository,
@@ -20,7 +19,6 @@ public class ProblemMapper {
                         ProblemSetRepository problemSetRepository) {
                 ProblemMapper.userRepository = userRepository;
                 ProblemMapper.categoryRepository = categoryRepository;
-                ProblemMapper.problemSetRepository = problemSetRepository;
         }
 
         public static ProblemResponseDTO convertToDTO(Problem problem) {

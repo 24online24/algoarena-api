@@ -33,7 +33,6 @@ public class ProblemController {
         private final ProblemRepository problemRepository;
         private final UserRepository userRepository;
         private final CategoryRepository categoryRepository;
-        private final ProblemSetRepository problemSetRepository;
 
         public ProblemController(
                         ProblemRepository problemRepository,
@@ -43,7 +42,6 @@ public class ProblemController {
                 this.problemRepository = problemRepository;
                 this.userRepository = userRepository;
                 this.categoryRepository = categoryRepository;
-                this.problemSetRepository = problemSetRepository;
         }
 
         @PostMapping()
