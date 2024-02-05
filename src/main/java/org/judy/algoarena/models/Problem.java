@@ -53,11 +53,36 @@ public class Problem {
     @JoinTable(name = "problem_problemset", joinColumns = @JoinColumn(name = "problem_id"), inverseJoinColumns = @JoinColumn(name = "problemset_id"))
     private List<ProblemSet> problemSets;
 
-    public Problem(User author, String name, String description, Difficulty difficulty, List<Category> categories) {
+    @Column(name = "example_input", columnDefinition = "TEXT", nullable = false)
+    private String exampleInput;
+
+    @Column(name = "example_output", columnDefinition = "TEXT", nullable = false)
+    private String exampleOutput;
+
+    @Column(name = "input", columnDefinition = "TEXT", nullable = false)
+    private String input;
+
+    @Column(name = "output", columnDefinition = "TEXT", nullable = false)
+    private String output;
+
+    public Problem(
+            User author,
+            String name,
+            String description,
+            Difficulty difficulty,
+            List<Category> categories,
+            String exampleInput,
+            String exampleOutput,
+            String input,
+            String output) {
         this.author = author;
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
         this.categories = categories;
+        this.exampleInput = exampleInput;
+        this.exampleOutput = exampleOutput;
+        this.input = input;
+        this.output = output;
     }
 }
