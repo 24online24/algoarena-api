@@ -7,7 +7,9 @@ import org.springframework.lang.NonNull;
 
 public class CategoryMapper {
     public static CategoryResponseDTO convertToDTO(Category category) {
-        return new CategoryResponseDTO(category.getCategoryName());
+        return new CategoryResponseDTO(
+                category.getId(),
+                category.getCategoryName());
     }
 
     @NonNull

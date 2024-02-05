@@ -4,7 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class CategoryResponseDTO extends CategoryDTO {
-  public CategoryResponseDTO(String categoryName) {
+  private Long id;
+
+  public CategoryResponseDTO(Long id, String categoryName) {
     super(categoryName);
+    this.id = id;
   }
 }
