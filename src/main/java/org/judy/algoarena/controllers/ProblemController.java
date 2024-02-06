@@ -10,6 +10,7 @@ import org.judy.algoarena.dto.problem.ProblemResponseDTO;
 import org.judy.algoarena.dto.problem.ProblemUpdateDTO;
 import org.judy.algoarena.mappers.ProblemMapper;
 import org.judy.algoarena.models.Category;
+import org.judy.algoarena.models.Difficulty;
 import org.judy.algoarena.models.Problem;
 import org.judy.algoarena.models.User;
 import org.judy.algoarena.repositories.CategoryRepository;
@@ -53,6 +54,23 @@ public class ProblemController {
                         () -> new IllegalArgumentException("Category not found with ID: "
                                 + category.get().getId())))
                 .toList();
+
+        if (categories.isEmpty())
+            throw new IllegalArgumentException(
+                    "Categories not found with IDs: " + problemCreateDTO.getCategoriesIds());
+
+        if (problemCreateDTO.getExampleInput().isEmpty() || problemCreateDTO.getExampleOutput().isEmpty()
+                || problemCreateDTO.getInput().isEmpty() || problemCreateDTO.getOutput().isEmpty())
+            throw new IllegalArgumentException(
+                    "Example input, example output, input and output cannot be empty");
+        if (problemCreateDTO.getDifficulty() != Difficulty.EASY &&
+                problemCreateDTO.getDifficulty() != Difficulty.MEDIUM &&
+                problemCreateDTO.getDifficulty() != Difficulty.HARD)
+            throw new IllegalArgumentException(
+                    "Difficulty must be EASY, MEDIUM or HARD");
+        if (problemCreateDTO.getName().isEmpty() || problemCreateDTO.getDescription().isEmpty())
+            throw new IllegalArgumentException(
+                    "Name and description cannot be empty");
 
         Problem problem = new Problem(
                 author,
