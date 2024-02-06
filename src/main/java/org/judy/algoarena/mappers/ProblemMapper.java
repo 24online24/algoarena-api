@@ -44,7 +44,7 @@ public class ProblemMapper {
         User author = userRepository.findById(authorId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Author not found with ID: " + authorId));
-
+        System.out.println(author.getId());
         return new Problem(
                 author,
                 problemCreateDTO.getName(),
@@ -52,14 +52,15 @@ public class ProblemMapper {
                 problemCreateDTO.getDifficulty(),
                 problemCreateDTO.getCategoriesIds().stream()
                         .map(categoryRepository::findById)
-                        .map(category -> category
+                        .map(optional -> optional
                                 .orElseThrow(() -> new IllegalArgumentException(
                                         "Category not found with ID: "
-                                                + category.get().getId())))
+                                                + optional.get().getId())))
                         .toList(),
                 problemCreateDTO.getExampleInput(),
                 problemCreateDTO.getExampleOutput(),
                 problemCreateDTO.getInput(),
                 problemCreateDTO.getOutput());
+
     }
 }

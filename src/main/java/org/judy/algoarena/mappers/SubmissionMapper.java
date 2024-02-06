@@ -27,7 +27,8 @@ public class SubmissionMapper {
                 ProblemMapper.convertToDTO(submission.getProblem()),
                 submission.getCode(),
                 submission.getLanguage_id(),
-                submission.getStatus());
+                submission.getStatus(),
+                submission.getMessage());
     }
 
     @NonNull
@@ -52,7 +53,6 @@ public class SubmissionMapper {
                 author,
                 problem,
                 submissionCreateDTO.getCode(),
-                submissionCreateDTO.getLanguage_id(),
-                submissionCreateDTO.getStatus());
+                submissionCreateDTO.getLanguage_id());
     }
 }

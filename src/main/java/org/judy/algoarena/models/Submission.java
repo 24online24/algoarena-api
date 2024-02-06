@@ -1,6 +1,12 @@
 package org.judy.algoarena.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,15 +38,16 @@ public class Submission {
     @Column(name = "language_id", nullable = false)
     private int language_id;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private SubmissionStatus status;
+    private String status;
 
-    public Submission(User author, Problem problem, String code, int language_id, SubmissionStatus status) {
+    @Column(name = "message", nullable = false)
+    private String message;
+
+    public Submission(User author, Problem problem, String code, int language_id) {
         this.author = author;
         this.problem = problem;
         this.code = code;
         this.language_id = language_id;
-        this.status = status;
     }
 }

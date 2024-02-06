@@ -53,12 +53,17 @@ public class ProblemController {
                                 + category.get().getId())))
                 .toList();
 
-        Problem problem = new Problem();
-        problem.setAuthor(author);
-        problem.setName(problemCreateDTO.getName());
-        problem.setDescription(problemCreateDTO.getDescription());
-        problem.setDifficulty(problemCreateDTO.getDifficulty());
-        problem.setCategories(categories);
+        Problem problem = new Problem(
+                author,
+                problemCreateDTO.getName(),
+                problemCreateDTO.getDescription(),
+                problemCreateDTO.getDifficulty(),
+                categories,
+                problemCreateDTO.getExampleInput(),
+                problemCreateDTO.getExampleOutput(),
+                problemCreateDTO.getInput(),
+                problemCreateDTO.getOutput());
+
         problemRepository.save(problem);
         return "Added new problem to repo!";
     }

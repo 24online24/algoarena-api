@@ -1,7 +1,5 @@
 package org.judy.algoarena.dto.submission;
 
-import org.judy.algoarena.models.SubmissionStatus;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,5 +8,4 @@ import lombok.Getter;
 abstract class SubmissionDTO {
     private String code;
     private int language_id;
-    private SubmissionStatus status;
 }
