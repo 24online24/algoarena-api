@@ -1,5 +1,9 @@
 package org.judy.algoarena.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -17,7 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/users")
@@ -58,6 +64,32 @@ public class UserController {
         user.setEmail(userUpdateDTO.getEmail());
         user.setPassword(userUpdateDTO.getPassword());
         user.setRole(userUpdateDTO.getRole());
+        userRepository.save(user);
+        return UserMapper.convertToDTO(user);
+    }
+
+    @PutMapping("/{id}/profile")
+    public UserResponseDTO updateProfile(
+            @RequestParam("email") String email,
+            @RequestParam("username") String username,
+            @RequestParam(value = "avatar", required = false) MultipartFile avatar) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+
+        user.setEmail(email);
+        user.setName(username);
+        if (avatar != null && !avatar.isEmpty()) {
+            try {
+                Path publicDirectoryPath = Paths.get("src", "main", "resources", "static");
+                Files.createDirectories(publicDirectoryPath);
+                Path avatarPath = publicDirectoryPath.resolve(avatar.getOriginalFilename());
+                avatar.transferTo(avatarPath);
+                user.setAvatar("http://localhost:8080/" + avatar.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         userRepository.save(user);
         return UserMapper.convertToDTO(user);
     }

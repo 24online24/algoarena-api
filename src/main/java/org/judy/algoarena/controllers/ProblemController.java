@@ -1,5 +1,6 @@
 package org.judy.algoarena.controllers;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -28,87 +29,95 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/problems")
 public class ProblemController {
 
-        private final ProblemRepository problemRepository;
-        private final UserRepository userRepository;
-        private final CategoryRepository categoryRepository;
+    private final ProblemRepository problemRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
-        public ProblemController(
-                        ProblemRepository problemRepository,
-                        UserRepository userRepository,
-                        CategoryRepository categoryRepository) {
-                this.problemRepository = problemRepository;
-                this.userRepository = userRepository;
-                this.categoryRepository = categoryRepository;
-        }
+    public ProblemController(
+            ProblemRepository problemRepository,
+            UserRepository userRepository,
+            CategoryRepository categoryRepository) {
+        this.problemRepository = problemRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
-        @PostMapping()
-        public String addProblem(@RequestBody ProblemCreateDTO problemCreateDTO) {
-                User author = userRepository.findById(problemCreateDTO.getAuthorId()).orElseThrow(
-                                () -> new IllegalArgumentException(
-                                                "Author not found with ID: " + problemCreateDTO.getAuthorId()));
-                List<Category> categories = problemCreateDTO.getCategoriesIds().stream()
-                                .map(categoryRepository::findById)
-                                .map(category -> category.orElseThrow(
-                                                () -> new IllegalArgumentException("Category not found with ID: "
-                                                                + category.get().getId())))
-                                .toList();
+    @PostMapping()
+    public String addProblem(@RequestBody ProblemCreateDTO problemCreateDTO) {
+        User author = userRepository.findById(problemCreateDTO.getAuthorId()).orElseThrow(
+                () -> new IllegalArgumentException(
+                        "Author not found with ID: " + problemCreateDTO.getAuthorId()));
+        List<Category> categories = problemCreateDTO.getCategoriesIds().stream()
+                .map(categoryRepository::findById)
+                .map(category -> category.orElseThrow(
+                        () -> new IllegalArgumentException("Category not found with ID: "
+                                + category.get().getId())))
+                .toList();
 
-                Problem problem = new Problem(
-                                author,
-                                problemCreateDTO.getName(),
-                                problemCreateDTO.getDescription(),
-                                problemCreateDTO.getDifficulty(),
-                                categories,
-                                problemCreateDTO.getExampleInput(),
-                                problemCreateDTO.getExampleOutput(),
-                                problemCreateDTO.getInput(),
-                                problemCreateDTO.getOutput());
+        Problem problem = new Problem(
+                author,
+                problemCreateDTO.getName(),
+                problemCreateDTO.getDescription(),
+                problemCreateDTO.getDifficulty(),
+                categories,
+                problemCreateDTO.getExampleInput(),
+                problemCreateDTO.getExampleOutput(),
+                problemCreateDTO.getInput(),
+                problemCreateDTO.getOutput());
 
-                problemRepository.save(problem);
-                return "Added new problem to repo!";
-        }
+        problemRepository.save(problem);
+        return "Added new problem to repo!";
+    }
 
-        @GetMapping()
-        public Iterable<ProblemResponseDTO> getProblems() {
-                return StreamSupport.stream(problemRepository.findAll().spliterator(), false)
-                                .map(ProblemMapper::convertToDTO)
-                                .collect(Collectors.toList());
-        }
+    @GetMapping()
+    public Iterable<ProblemResponseDTO> getProblems() {
+        return StreamSupport.stream(problemRepository.findAll().spliterator(), false)
+                .map(ProblemMapper::convertToDTO)
+                .collect(Collectors.toList());
+    }
 
-        @GetMapping("/{id}")
-        public ProblemResponseDTO findProblemById(@PathVariable @NonNull Long id) {
-                return ProblemMapper.convertToDTO(problemRepository.findById(id)
-                                .orElseThrow(() -> new IllegalArgumentException("Problem not found with ID: " + id)));
-        }
+    @GetMapping("/{id}")
+    public ProblemResponseDTO findProblemById(@PathVariable @NonNull Long id) {
+        return ProblemMapper.convertToDTO(problemRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Problem not found with ID: " + id)));
+    }
 
-        @PutMapping("/{id}")
-        public ProblemResponseDTO updateProblem(@RequestBody ProblemUpdateDTO problemUpdateDTO) {
-                Problem problem = problemRepository.findById(problemUpdateDTO.getId()).orElseThrow(
-                                () -> new IllegalArgumentException(
-                                                "Problem not found with ID: " + problemUpdateDTO.getId()));
-                User author = userRepository.findById(problemUpdateDTO.getAuthorId()).orElseThrow(
-                                () -> new IllegalArgumentException(
-                                                "Author not found with ID: " + problemUpdateDTO.getAuthorId()));
-                List<Category> categories = problemUpdateDTO.getCategoriesIds().stream()
-                                .map(categoryRepository::findById)
-                                .map(category -> category.orElseThrow(
-                                                () -> new IllegalArgumentException("Category not found with ID: "
-                                                                + category.get().getId())))
-                                .toList();
+    @GetMapping("/random")
+    public Iterable<ProblemResponseDTO> getRandomProblems() {
+        List<Problem> problems = StreamSupport.stream(problemRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+        Collections.shuffle(problems);
+        return problems.stream().limit(9).map(ProblemMapper::convertToDTO).collect(Collectors.toList());
+    }
 
-                problem.setAuthor(author);
-                problem.setName(problemUpdateDTO.getName());
-                problem.setDescription(problemUpdateDTO.getDescription());
-                problem.setDifficulty(problemUpdateDTO.getDifficulty());
-                // Donno if this is optimal
-                problem.getCategories().clear();
-                problem.getCategories().addAll(categories);
-                problemRepository.save(problem);
-                return ProblemMapper.convertToDTO(problem);
-        }
+    @PutMapping("/{id}")
+    public ProblemResponseDTO updateProblem(@RequestBody ProblemUpdateDTO problemUpdateDTO) {
+        Problem problem = problemRepository.findById(problemUpdateDTO.getId()).orElseThrow(
+                () -> new IllegalArgumentException(
+                        "Problem not found with ID: " + problemUpdateDTO.getId()));
+        User author = userRepository.findById(problemUpdateDTO.getAuthorId()).orElseThrow(
+                () -> new IllegalArgumentException(
+                        "Author not found with ID: " + problemUpdateDTO.getAuthorId()));
+        List<Category> categories = problemUpdateDTO.getCategoriesIds().stream()
+                .map(categoryRepository::findById)
+                .map(category -> category.orElseThrow(
+                        () -> new IllegalArgumentException("Category not found with ID: "
+                                + category.get().getId())))
+                .toList();
 
-        @DeleteMapping("/{id}")
-        public void deleteProblem(@PathVariable @NonNull Long id) {
-                problemRepository.deleteById(id);
-        }
+        problem.setAuthor(author);
+        problem.setName(problemUpdateDTO.getName());
+        problem.setDescription(problemUpdateDTO.getDescription());
+        problem.setDifficulty(problemUpdateDTO.getDifficulty());
+        // Donno if this is optimal
+        problem.getCategories().clear();
+        problem.getCategories().addAll(categories);
+        problemRepository.save(problem);
+        return ProblemMapper.convertToDTO(problem);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProblem(@PathVariable @NonNull Long id) {
+        problemRepository.deleteById(id);
+    }
 }
