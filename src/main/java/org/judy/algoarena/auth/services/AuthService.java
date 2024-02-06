@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.UriEncoder;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class AuthService {
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .avatar(request.getAvatar())
+                .avatar("https://api.dicebear.com/7.x/initials/svg?seed=" + UriEncoder.encode(request.getUsername()))
                 .role(Role.USER)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();

@@ -1,5 +1,0 @@
-package org.judy.algoarena.models;
-
-public enum SubmissionStatus {
-    ACCEPTED, WRONG_ANSWER, TIME_LIMIT_EXCEEDED, RUNTIME_ERROR, COMPILATION_ERROR, MEMORY_LIMIT_EXCEEDED, UNKNOWN_ERROR
-}
