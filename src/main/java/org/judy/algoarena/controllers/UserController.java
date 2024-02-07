@@ -68,7 +68,7 @@ public class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id)));
     }
 
-    @GetMapping("/{id}/submission")
+    @GetMapping("/{id}/submissions")
     public Iterable<SubmissionResponseDTO> findUserSubmissions(@PathVariable @NonNull Long id) {
         return submissionRepository.findByAuthorId(id).stream().map(SubmissionMapper::convertToDTO)
                 .collect(Collectors.toList());
