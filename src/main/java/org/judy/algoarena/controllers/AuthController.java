@@ -27,6 +27,12 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
             @RequestBody RegisterRequest request) {
+        if (request.getUsername().length() < 3) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (request.getPassword().length() < 6) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(authService.register(request));
     }
 
