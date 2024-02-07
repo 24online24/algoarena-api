@@ -61,6 +61,8 @@ public class Problem {
     @Column(name = "output", columnDefinition = "TEXT", nullable = false)
     private String output;
 
+    
+
     public Problem(User author, String name, String description, Difficulty difficulty, List<Category> categories,
             String exampleInput, String exampleOutput, String input, String output) {
         this.author = author;

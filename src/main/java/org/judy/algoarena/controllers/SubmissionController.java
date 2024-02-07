@@ -63,7 +63,8 @@ public class SubmissionController {
                                                                                 + submissionCreateDTO
                                                                                                 .getProblemId())),
                                 submissionCreateDTO.getCode(),
-                                submissionCreateDTO.getLanguage_id());
+                                submissionCreateDTO.getLanguage_id(),
+                                java.time.LocalDateTime.now());
                 try {
 
                         Judge0Request request = new Judge0Request();

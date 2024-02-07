@@ -1,5 +1,7 @@
 package org.judy.algoarena.dto.submission;
 
+import java.time.LocalDateTime;
+
 import org.judy.algoarena.dto.problem.ProblemResponseDTO;
 import org.judy.algoarena.dto.user.UserResponseDTO;
 
@@ -14,6 +16,7 @@ public class SubmissionResponseDTO extends SubmissionDTO {
     private String message;
     private String time;
     private String memory;
+    private LocalDateTime date;
 
     public SubmissionResponseDTO(
             Long id,
@@ -24,7 +27,8 @@ public class SubmissionResponseDTO extends SubmissionDTO {
             String status,
             String message,
             String time,
-            String memory) {
+            String memory,
+            LocalDateTime date) {
         super(code, language_id);
         this.id = id;
         this.author = author;
@@ -33,5 +37,6 @@ public class SubmissionResponseDTO extends SubmissionDTO {
         this.message = message;
         this.time = time;
         this.memory = memory;
+        this.date = date;
     }
 }

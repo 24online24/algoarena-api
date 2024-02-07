@@ -1,5 +1,7 @@
 package org.judy.algoarena.models;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,10 +52,14 @@ public class Submission {
     @Column(name = "memory", nullable = false)
     private String memory;
 
-    public Submission(User author, Problem problem, String code, int language_id) {
+    @Column(name = "date", nullable = false)
+    private LocalDateTime date;
+
+    public Submission(User author, Problem problem, String code, int language_id, LocalDateTime date) {
         this.author = author;
         this.problem = problem;
         this.code = code;
         this.language_id = language_id;
+        this.date = date;
     }
 }

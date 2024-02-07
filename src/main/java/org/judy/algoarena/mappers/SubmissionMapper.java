@@ -30,8 +30,8 @@ public class SubmissionMapper {
                 submission.getStatus(),
                 submission.getMessage(),
                 submission.getTime(),
-                submission.getMemory()
-                );
+                submission.getMemory(),
+                submission.getDate());
     }
 
     @NonNull
@@ -56,6 +56,7 @@ public class SubmissionMapper {
                 author,
                 problem,
                 submissionCreateDTO.getCode(),
-                submissionCreateDTO.getLanguage_id());
+                submissionCreateDTO.getLanguage_id(),
+                java.time.LocalDateTime.now());
     }
 }
