@@ -2,12 +2,14 @@ package org.judy.algoarena.dto.user;
 
 import org.judy.algoarena.models.Role;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 public class UserCreateDTO extends UserDTO {
     @Setter
+    @NotBlank
     private String password;
     private Role role;
 

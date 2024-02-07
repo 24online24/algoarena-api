@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.judy.algoarena.models.Difficulty;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
 public class ProblemUpdateDTO extends ProblemCreateDTO {
+    @NotNull
     private Long id;
 
     public ProblemUpdateDTO(
