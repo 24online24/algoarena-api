@@ -176,7 +176,7 @@ docker-compose up -d
 sleep 5s # wait for judge0 to start
 ```
 
-Dupa ce aceste comenzi sunt rulate, putem accesa API-ul la adresa `http://localhost:2358`. Documentația API-ului este disponibilă la adresa
+Dupa ce aceste comenzi sunt rulate, putem accesa API-ul la adresa `http://localhost:2358`. Documentația API-ului este disponibilă la adresa `https://ce.judge0.com/`.
 
 ## 3. Concluzii
 
