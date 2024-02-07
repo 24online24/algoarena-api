@@ -7,11 +7,14 @@ import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.judy.algoarena.dto.submission.SubmissionResponseDTO;
 import org.judy.algoarena.dto.user.UserCreateDTO;
 import org.judy.algoarena.dto.user.UserResponseDTO;
 import org.judy.algoarena.dto.user.UserUpdateDTO;
+import org.judy.algoarena.mappers.SubmissionMapper;
 import org.judy.algoarena.mappers.UserMapper;
 import org.judy.algoarena.models.User;
+import org.judy.algoarena.repositories.SubmissionRepository;
 import org.judy.algoarena.repositories.UserRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,8 +34,11 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    public UserController(UserRepository userRepository) {
+    private final SubmissionRepository submissionRepository;
+
+    public UserController(UserRepository userRepository, SubmissionRepository submissionRepository) {
         this.userRepository = userRepository;
+        this.submissionRepository = submissionRepository;
     }
 
     @PostMapping()
@@ -52,6 +58,12 @@ public class UserController {
     public UserResponseDTO findUserById(@PathVariable @NonNull Long id) {
         return UserMapper.convertToDTO(userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id)));
+    }
+
+    @GetMapping("/{id}/submission")
+    public Iterable<SubmissionResponseDTO> findUserSubmissions(@PathVariable @NonNull Long id) {
+        return submissionRepository.findByAuthorId(id).stream().map(SubmissionMapper::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     @PutMapping("/{id}")
