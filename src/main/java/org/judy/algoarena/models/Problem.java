@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -61,6 +62,8 @@ public class Problem {
     @Column(name = "output", columnDefinition = "TEXT", nullable = false)
     private String output;
 
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Submission> submissions;
     
 
     public Problem(User author, String name, String description, Difficulty difficulty, List<Category> categories,

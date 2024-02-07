@@ -53,6 +53,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Problem> Problems;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Submission> submissions;
+
     @Column(name = "createdAt", nullable = false)
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
