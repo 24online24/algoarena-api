@@ -1,5 +1,7 @@
 .env
 application.properties
+*.jpg
+*.png
 
 HELP.md
 target/
