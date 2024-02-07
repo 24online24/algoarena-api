@@ -1,6 +1,8 @@
 .env
 application.properties
 *.jpg
+*.jpeg
+*.svg
 *.png
 
 HELP.md

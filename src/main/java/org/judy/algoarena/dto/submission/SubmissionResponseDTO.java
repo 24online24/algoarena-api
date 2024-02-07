@@ -12,14 +12,20 @@ public class SubmissionResponseDTO extends SubmissionDTO {
     private ProblemResponseDTO problem;
     private String status;
     private String message;
+    private String time;
+    private String memory;
 
     public SubmissionResponseDTO(Long id, UserResponseDTO author, ProblemResponseDTO problem, String code,
-            int language_id, String status, String message) {
+            int language_id, String status, String message,
+            String time, String memory) {
+            
         super(code, language_id);
         this.id = id;
         this.author = author;
         this.problem = problem;
         this.status = status;
         this.message = message;
+        this.time = time;
+        this.memory = memory;
     }
 }

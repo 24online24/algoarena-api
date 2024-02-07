@@ -44,6 +44,12 @@ public class Submission {
     @Column(name = "message", nullable = false)
     private String message;
 
+    @Column(name = "time", nullable = false)
+    private String time;
+
+    @Column(name = "memory", nullable = false)
+    private String memory;
+
     public Submission(User author, Problem problem, String code, int language_id) {
         this.author = author;
         this.problem = problem;

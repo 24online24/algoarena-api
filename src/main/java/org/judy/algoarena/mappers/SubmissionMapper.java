@@ -28,7 +28,10 @@ public class SubmissionMapper {
                 submission.getCode(),
                 submission.getLanguage_id(),
                 submission.getStatus(),
-                submission.getMessage());
+                submission.getMessage(),
+                submission.getTime(),
+                submission.getMemory()
+                );
     }
 
     @NonNull
