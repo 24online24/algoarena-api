@@ -70,6 +70,11 @@ public class AuthService {
         return user;
     }
 
+    public String updateProfile(User user) {
+        var jwtToken = jwtService.generateToken(user);
+        return jwtToken;
+    }
+
     public void changePassword(PasswordChangeRequest request) {
         var user = repository.findById(request.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));

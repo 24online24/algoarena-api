@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.judy.algoarena.dto.submission.SubmissionResponseDTO;
+import org.judy.algoarena.auth.models.AuthResponse;
+import org.judy.algoarena.auth.services.AuthService;
 import org.judy.algoarena.dto.user.UserCreateDTO;
 import org.judy.algoarena.dto.user.UserResponseDTO;
 import org.judy.algoarena.dto.user.UserUpdateDTO;
@@ -35,11 +37,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final AuthService authService;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private final SubmissionRepository submissionRepository;
 
-    public UserController(UserRepository userRepository, SubmissionRepository submissionRepository) {
+    public UserController(UserRepository userRepository, SubmissionRepository submissionRepository, AuthService authService) {
+        this.authService = authService;
         this.userRepository = userRepository;
         this.submissionRepository = submissionRepository;
     }
@@ -85,13 +89,13 @@ public class UserController {
     }
 
     @PutMapping("/{id}/profile")
-    public UserResponseDTO updateProfile(
+    public AuthResponse updateProfile(
+            @PathVariable @NonNull Long id,
             @RequestParam("email") String email,
             @RequestParam("username") String username,
             @RequestParam(value = "avatar", required = false) MultipartFile avatar) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
-
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
         user.setEmail(email);
         user.setName(username);
         if (avatar != null && !avatar.isEmpty()) {
@@ -107,7 +111,7 @@ public class UserController {
         }
 
         userRepository.save(user);
-        return UserMapper.convertToDTO(user);
+        return new AuthResponse(authService.updateProfile(user));
     }
 
     @DeleteMapping("/{id}")
