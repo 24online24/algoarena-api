@@ -20,7 +20,7 @@ public class UserMapper {
     public static User convertToEntity(UserCreateDTO userCreateDTO) {
         return new User(
                 userCreateDTO.getUsername(),
-                userCreateDTO.getAvatar(),
+                "https://api.dicebear.com/7.x/initials/svg?seed=" + userCreateDTO.getUsername(),
                 userCreateDTO.getEmail(),
                 userCreateDTO.getPassword(),
                 userCreateDTO.getRole());

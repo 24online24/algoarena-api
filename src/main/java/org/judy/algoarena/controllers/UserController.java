@@ -14,6 +14,8 @@ import org.judy.algoarena.mappers.UserMapper;
 import org.judy.algoarena.models.User;
 import org.judy.algoarena.repositories.UserRepository;
 import org.springframework.lang.NonNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -37,6 +40,7 @@ public class UserController {
 
     @PostMapping()
     public String addUser(@RequestBody UserCreateDTO userCreateDTO) {
+        userCreateDTO.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
         userRepository.save(UserMapper.convertToEntity(userCreateDTO));
         return "Added new user to repo!";
     }
@@ -62,7 +66,7 @@ public class UserController {
         user.setName(userUpdateDTO.getUsername());
         user.setAvatar(userUpdateDTO.getAvatar());
         user.setEmail(userUpdateDTO.getEmail());
-        user.setPassword(userUpdateDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userUpdateDTO.getPassword()));
         user.setRole(userUpdateDTO.getRole());
         userRepository.save(user);
         return UserMapper.convertToDTO(user);

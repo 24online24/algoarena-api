@@ -2,6 +2,7 @@ package org.judy.algoarena.controllers;
 
 import org.judy.algoarena.auth.models.AuthRequest;
 import org.judy.algoarena.auth.models.AuthResponse;
+import org.judy.algoarena.auth.models.PasswordChangeRequest;
 import org.judy.algoarena.auth.models.RegisterRequest;
 import org.judy.algoarena.auth.services.AuthService;
 import org.judy.algoarena.models.User;
@@ -44,6 +45,15 @@ public class AuthController {
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         authService.logout(request);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/change_password")
+    public ResponseEntity<Object> changePassword(@RequestBody PasswordChangeRequest request) {
+        authService.changePassword(request);
+        return ResponseEntity.ok(
+                new Object() {
+                    public String message = "Password changed successfully";
+                });
     }
 
 }

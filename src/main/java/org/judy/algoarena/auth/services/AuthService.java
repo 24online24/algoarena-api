@@ -2,6 +2,7 @@ package org.judy.algoarena.auth.services;
 
 import org.judy.algoarena.auth.models.AuthRequest;
 import org.judy.algoarena.auth.models.AuthResponse;
+import org.judy.algoarena.auth.models.PasswordChangeRequest;
 import org.judy.algoarena.auth.models.RegisterRequest;
 import org.judy.algoarena.models.Role;
 import org.judy.algoarena.models.User;
@@ -67,6 +68,24 @@ public class AuthService {
         }
 
         return user;
+    }
+
+    public void changePassword(PasswordChangeRequest request) {
+        var user = repository.findById(request.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String oldPassword = request.getPassword();
+        String newPassword = request.getNewPassword();
+
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            repository.save(user);
+        } else {
+            throw new RuntimeException("Old password is incorrect");
+        }
+
+        // user.setPassword(passwordEncoder.encode(newPassword));
+        // repository.save(user);
     }
 
 }
