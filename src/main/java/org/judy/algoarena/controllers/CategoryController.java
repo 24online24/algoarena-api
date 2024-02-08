@@ -9,6 +9,7 @@ import org.judy.algoarena.dto.category.CategoryUpdateDTO;
 import org.judy.algoarena.mappers.CategoryMapper;
 import org.judy.algoarena.models.Category;
 import org.judy.algoarena.repositories.CategoryRepository;
+import org.judy.algoarena.repositories.ProblemRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/categories")
 public class CategoryController {
     private final CategoryRepository categoryRepository;
+    private final ProblemRepository problemRepository;
 
-    public CategoryController(CategoryRepository categoryRepository) {
+    public CategoryController(CategoryRepository categoryRepository, ProblemRepository problemRepository) {
         this.categoryRepository = categoryRepository;
+        this.problemRepository = problemRepository;
     }
 
     @PostMapping()
@@ -59,6 +62,11 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     public void deleteCategoryById(@PathVariable @NonNull Long id) {
-        categoryRepository.deleteById(id);
+        // iterate all problems and remove category from them
+        problemRepository.findAll().forEach(problem -> {
+            problem.getCategories().removeIf(category -> category.getId().equals(id));
+            problemRepository.save(problem);
+        });
+        categoryRepository.deleteById(id); // this fails cause of many to many relationship
     }
 }

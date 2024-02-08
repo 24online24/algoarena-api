@@ -2,6 +2,7 @@ package org.judy.algoarena.models;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ public class Category {
     @Column(name = "category_name", nullable = false, unique = true)
     private String categoryName;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH })
     private List<Problem> problems;
 
     public Category(String categoryName) {

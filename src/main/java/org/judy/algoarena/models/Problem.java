@@ -46,7 +46,7 @@ public class Problem {
     @Column(name = "difficulty", nullable = false)
     private Difficulty difficulty;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.ALL, CascadeType.MERGE })
     @JoinTable(name = "problem_category", joinColumns = @JoinColumn(name = "problem_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
 
@@ -64,7 +64,6 @@ public class Problem {
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions;
-    
 
     public Problem(User author, String name, String description, Difficulty difficulty, List<Category> categories,
             String exampleInput, String exampleOutput, String input, String output) {

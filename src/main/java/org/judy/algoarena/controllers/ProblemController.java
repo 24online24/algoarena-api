@@ -157,6 +157,12 @@ public class ProblemController {
 
         @DeleteMapping("/{id}")
         public void deleteProblem(@PathVariable @NonNull Long id) {
+                // set the category of all problems to null
+                Problem problem = problemRepository.findById(id).orElseThrow(
+                                () -> new IllegalArgumentException(
+                                                "Problem not found with ID: " + id));
+                problem.getCategories().clear();
+                problemRepository.save(problem);
                 problemRepository.deleteById(id);
         }
 }
